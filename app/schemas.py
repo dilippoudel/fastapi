@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 
 
@@ -54,6 +54,12 @@ class Post(PostBase):
     owner_id: int
     owner: UserOut
 
+    class Config:
+        from_attributes = True
+
+class PostOut(BaseModel):
+    post: Post
+    votes: int
     class Config:
         from_attributes = True
 
