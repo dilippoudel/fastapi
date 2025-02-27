@@ -33,7 +33,6 @@ def create_post(post: schemas.PostCreate, db: Session = Depends(get_db), user_id
     return new_post
 
 
-
 @router.get("/{id}", response_model=schemas.PostOut)
 def get_post(id: int, db: Session = Depends(get_db), user_id: int = Depends(oauth2.get_current_user)):
     # post = db.query(models.Post).filter(models.Post.id == id).first()
