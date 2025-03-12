@@ -12,7 +12,7 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"Hello": "World is nice. "}
 
 
 # origins = ["https://www.google.com"] ==> only the google can access our backend api
