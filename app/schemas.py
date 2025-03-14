@@ -2,13 +2,14 @@ from pydantic import BaseModel, EmailStr, Field
 from typing import Optional, List
 from datetime import datetime
 
-
 """User Serializer."""
+
 
 class UserCreate(BaseModel):
     """Structure of User model."""
     email: EmailStr
     password: str
+
 
 class UserOut(BaseModel):
     """Fields to return the user as a response."""
@@ -19,17 +20,21 @@ class UserOut(BaseModel):
         from_attributes = True
 
 
-
 """user loging serializer"""
+
+
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
 
 """Token serializer"""
+
+
 class Token(BaseModel):
     access_token: str
     token_type: str
+
 
 class TokenData(BaseModel):
     id: Optional[int] = None
@@ -44,8 +49,10 @@ class PostBase(BaseModel):
     content: str
     published: bool = True
 
+
 class PostCreate(PostBase):
     pass
+
 
 # response to user
 class Post(PostBase):
@@ -57,11 +64,13 @@ class Post(PostBase):
     class Config:
         from_attributes = True
 
+
 class PostOut(BaseModel):
     post: Post
     votes: int
     class Config:
         from_attributes = True
+
 
 class Vote(BaseModel):
     post_id: int
