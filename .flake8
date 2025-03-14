@@ -1,0 +1,14 @@
+[flake8]
+exclude =
+    migrations,
+    __pycache__,
+    manage.py,
+    settings.py,
+    models.py,
+    database.py,
+    oauth2.py,
+    main.py,
+    schemas.py,
+    basic_api.py,
+    config.py,
+    routers
