@@ -1,20 +1,12 @@
 from app import schemas
-from .database import client, session # noqa
-import pytest
 import jwt
 from app.config import settings
-@pytest.fixture
-def test_user(client):
-    user_data = {"email": "hello123@gmail.com", "password": "password123"}
-    res = client.post("/users", json=user_data)
-    assert res.status_code == 201
-    print(res.json())
-    new_user = res.json()
-    new_user['password'] = user_data["password"]
-    return new_user
-
+import pytest
 
 """Test to create users."""
+
+
+
 def test_create_user(client):
     res = client.post("/users/", json={"email":"hello123@gmail.com", "password":"password123"})
     new_user = schemas.UserOut(**res.json())
@@ -30,3 +22,15 @@ def test_login_user(client, test_user):
     assert id == test_user['id']
     assert login_response.token_type == "Bearer"
     assert res.status_code == 200
+
+"""Test for invalid credentials."""
+@pytest.mark.parametrize("email, password, status_code", [
+    ('hello123@gmail.com', 'pass12345', 403),
+    ('hello143@gmail.com', 'passworuuud123', 403),
+    ('hedili123@gmail.com', 'pass12345', 403),
+    (None, 'pass12345', 403),
+    ('hello123@gmail.com', None, 403)
+])
+def test_incorrect_login(test_user, client,  email, password, status_code):
+    res = client.post('/login', data={"username": email, "password": password})
+    assert res.status_code == status_code
