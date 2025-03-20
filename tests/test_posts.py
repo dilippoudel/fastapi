@@ -8,7 +8,7 @@ def test_get_all_posts(authorized_client, test_posts):
     def validate(post):
         return schemas.PostOut(**post)
     assert res.status_code == 200
-    assert len(res.json()) == 3
+    assert len(res.json()) == 4
 
 
 
@@ -70,11 +70,33 @@ def test_successfully_deleting_post(authorized_client, test_user, test_posts):
     response = authorized_client.delete(f'/posts/{test_posts[0].id}')
     assert response.status_code == 204
     current_posts = authorized_client.get("/posts")
-    assert len(current_posts.json()) == 2
+    assert len(current_posts.json()) == 3
 
-def test_delete_poset_non_exist(authorized_client, test_user, test_posts):
+def test_delete_post_non_exist(authorized_client, test_user, test_posts):
     res = authorized_client.delete(f'/posts/5')
     assert res.status_code == 404
 
+def test_delete_other_user_post(authorized_client, test_user, test_posts):
+    res = authorized_client.delete(f'/posts/{test_posts[3].id}')
+    res.status_code == 403
 
+def test_updating_post(authorized_client, test_user, test_posts):
+    data = {
+        "title":"Updated title",
+        "content": "updated Content",
+        "id": test_posts[0].id
+    }
+    res = authorized_client.put(f'/posts/{test_posts[0].id}', json=data)
+    updated_post = schemas.Post(**res.json())
+    assert res.status_code == 200
+    assert updated_post.title == data['title']
+
+def test_updating_other_post_user(authorized_client, test_user, test_user_two, test_posts):
+    data = {
+        "title":"Updated title",
+        "content": "updated Content",
+        "id": test_posts[3].id
+    }
+    res = authorized_client.put(f'/posts/{test_posts[3].id}', json=data)
+    assert res.status_code == 403
 
