@@ -77,6 +77,7 @@ def authorized_client(client, token):
 
 @pytest.fixture
 def test_posts(test_user, test_user_two, session):
+    """This fixture runs before every test case to create the post if indeed."""
     posts_data = [
         {
          "title": "first title",
