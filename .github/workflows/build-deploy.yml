@@ -85,11 +85,4 @@ jobs:
           script: |
             cd app/src
             git pull
-            echo password | sudo -S systemctl restart fastapi
-
-# deploy to our ubuntu server
-# steps
-# Login to our ubuntu server
-# cd /app/src
-# git pull
-# systemctl restart api
+            echo ${{secrets.PROD_PASSWORD}} | sudo -S systemctl restart fastapi
