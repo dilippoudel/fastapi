@@ -8,7 +8,7 @@ Group=dilip
 WorkingDirectory=/home/dilip/app/src/
 Environment="PATH=/home/dilip/app/venv/bin"
 EnvironmentFile=/home/dilip/.env
-ExecStart=/home/dilip/app/venv/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
+ExecStart=/home/dilip/app/venv/bin/gunicorn -w 2 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
 
 [Install]
 WantedBy=multi-user.target
