@@ -76,5 +76,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - name: deploying stuff
-        run: echo "going to deploy the code."
+      - name: deploying to ubuntu server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{secrets.PROD_HOST}}
+          username: ${{secrets.PROD_USERNAME}}
+          password: ${{secrets.PROD_PASSWORD}}
+          script: |
+            cd app/src
+            git pull
+            sudo systemctl restart api
+
+# deploy to our ubuntu server
+# steps
+# Login to our ubuntu server
+# cd /app/src
+# git pull
+# systemctl restart api
